@@ -1,11 +1,14 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-
+import { ConfigService } from '@nestjs/config';
 import { AuthDto } from './dto/auth.dto';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -34,7 +37,7 @@ export class AuthService {
     return tokens;
   }
 
-	async signIn(data: AuthDto) {
+  async signIn(data: AuthDto) {
     // Check if user exists
     const user = await this.usersService.findByUsername(data.username);
     if (!user) throw new BadRequestException('User does not exist');
@@ -46,8 +49,22 @@ export class AuthService {
     return tokens;
   }
 
-	async logout(userId: string) {
-    return this.usersService.update(userId, { refreshToken: null });
+  async logout(userId: string) {
+    this.usersService.update(userId, { refreshToken: null });
+  }
+
+  async refreshTokens(userId: string, refreshToken: string) {
+    const user = await this.usersService.findById(userId);
+    if (!user || !user.refreshToken)
+      throw new ForbiddenException('Access Denied');
+    const refreshTokenMatches = await argon2.verify(
+      user.refreshToken,
+      refreshToken,
+    );
+    if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
+    const tokens = await this.getTokens(user.id, user.username);
+    await this.updateRefreshToken(user.id, tokens.refreshToken);
+    return tokens;
   }
 
   hashData(data: string) {
