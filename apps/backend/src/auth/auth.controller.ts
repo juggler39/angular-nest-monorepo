@@ -25,9 +25,17 @@ export class AuthController {
     return res.send({ tokens });
   }
 
-  @Post('signin')
-  signin(@Body() data: AuthDto) {
-    return this.authService.signIn(data);
+  @Post('login')
+  async signin(@Body() data: AuthDto, @Response() res: any,) {
+    const tokens = await this.authService.signIn(data)
+
+    res.cookie('accessToken', tokens.accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict'
+    });
+
+    return res.send( tokens );
   }
 
   @UseGuards(AccessTokenGuard)

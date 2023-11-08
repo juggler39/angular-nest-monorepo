@@ -1,16 +1,14 @@
 <mat-card>
   <mat-card-content>
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    <form #loginForm="ngForm" (ngSubmit)="login()" *ngIf="(isLoggedIn$|async)===false">
       <h2>Log In</h2>
-      <p>Use this credentials for test purpose:</p>
-      <p>username: <strong>user</strong>, password: <strong>123456</strong></p>
       <!-- <mat-error *ngIf="(loginError$|async)">
         The username and password were not recognized
       </mat-error> -->
       <mat-form-field>
         <input matInput
                placeholder="Username"
-               [(ngModel)]="username"
+               [(ngModel)]="user.username"
                name="username"
                minlength="3"
                required>
@@ -22,14 +20,16 @@
         <input matInput
                type="password"
                placeholder="Password"
-               [(ngModel)]="password"
+               [(ngModel)]="user.password"
                name="password"
                required>
-        <!-- <mat-error>
+        <mat-error>
           Password is required
-        </mat-error> -->
+        </mat-error>
       </mat-form-field>
       <button mat-raised-button color="primary" [disabled]="!loginForm.form.valid">Login</button>
     </form>
+    <button mat-raised-button color="warn" (click)="logout()" *ngIf="(isLoggedIn$|async)">Logout</button>
+    <div>{{(isLoggedIn$|async)|json}}</div>
   </mat-card-content>
 </mat-card>

@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
 import { LoginComponent } from './pages/login/login.component';
 
 
 const appRoutes: Routes = [
-  {
-    path: '',
-    component: NxWelcomeComponent,
-  },
+  // {
+  //   path: '',
+  //   component: NxWelcomeComponent,
+  // },
   {
     path: 'login',
     component: LoginComponent,
