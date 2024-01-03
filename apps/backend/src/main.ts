@@ -18,9 +18,11 @@ async function bootstrap() {
   app.use(helmet());
 
   const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix); const config = new DocumentBuilder()
+  app.setGlobalPrefix(globalPrefix);
+  const config = new DocumentBuilder()
     .setTitle('Monorepo API')
     .setVersion('0.1')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

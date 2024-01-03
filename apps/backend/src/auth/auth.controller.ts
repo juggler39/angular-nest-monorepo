@@ -14,40 +14,32 @@ export class AuthController {
 
   @Post('signup')
   async signup(@Body() createUserDto: CreateUserDto, @Response() res: any,) {
-    const tokens = await this.authService.signUp(createUserDto)
+    const userData = await this.authService.signUp(createUserDto)
+    // res.cookie('accessToken', userData.accessToken, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: 'strict'
+    // });
 
-    res.cookie('accessToken', tokens.accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict'
-    });
-
-    return res.send({ tokens });
+    return res.send(userData);
   }
 
   @Post('login')
   async signin(@Body() data: AuthDto, @Response() res: any,) {
-    const tokens = await this.authService.signIn(data)
-
-    res.cookie('accessToken', tokens.accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict'
-    });
-
-    return res.send( tokens );
+    const userData = await this.authService.signIn(data)
+    return res.send(userData);
   }
 
   @UseGuards(AccessTokenGuard)
   @Get('logout')
   logout(@Req() req: Request) {
-    this.authService.logout(req.user['sub']);
+    this.authService.logout(req.user['userId']);
   }
 
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
   refreshTokens(@Req() req: Request) {
-    const userId = req.user['sub'];
+    const userId = req.user['userId'];
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(userId, refreshToken);
   }

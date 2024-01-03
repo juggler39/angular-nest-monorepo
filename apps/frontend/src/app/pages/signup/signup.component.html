@@ -1,8 +1,7 @@
 <mat-card>
   <mat-card-content>
-    <mat-spinner *ngIf="isLoading()"></mat-spinner>
-    <form #loginForm="ngForm" (ngSubmit)="login()" *ngIf="(isLoggedIn$|async)===false">
-      <h2>Log In</h2>
+    <form #loginForm="ngForm" (ngSubmit)="signup()">
+      <h2>Sign up</h2>
       <!-- <mat-error *ngIf="(loginError$|async)">
         The username and password were not recognized
       </mat-error> -->
@@ -29,9 +28,7 @@
         </mat-error>
       </mat-form-field>
       <button mat-raised-button color="primary" [disabled]="!loginForm.form.valid">Login</button>
-      <div *ngIf="error">{{error}}</div>
+      <div>{{(isLoggedIn$|async)|json}}</div>
     </form>
-    <button mat-raised-button color="warn" (click)="logout()" *ngIf="(isLoggedIn$|async)">Logout</button>
-    <div>{{(isLoggedIn$|async)|json}}</div>
   </mat-card-content>
 </mat-card>

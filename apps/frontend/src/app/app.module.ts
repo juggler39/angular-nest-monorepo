@@ -8,19 +8,21 @@ import { LoginComponent } from './pages/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/reducers/auth.reducer';
+import { httpInterceptorProviders } from './services/token.interceptor';
+import { SignupComponent } from './pages/signup/signup.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, SignupComponent, SpinnerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
-    SharedModule,
     StoreModule.forRoot({ auth: authReducer }),
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

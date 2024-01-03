@@ -5,7 +5,7 @@ export interface AppState {
   auth: IAuthState;
 }
 
-export const selectAuthState = (state: AppState) => state.auth;
+const selectAuthState = (state: AppState) => state.auth;
 
 export const selectAuth = createSelector(
   selectAuthState,

@@ -3,12 +3,14 @@ import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { AccessTokenGuard } from '../common/guards/accessToken.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 
 @ApiTags('Cats')
 @Controller('cats')
+@ApiBearerAuth()
 export class CatsController {
-  constructor(private readonly catsService: CatsService) {}
+  constructor(private readonly catsService: CatsService) { }
 
   @Post()
   create(@Body() createCatDto: CreateCatDto) {

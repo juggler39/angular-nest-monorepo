@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
+import { RestrictedComponent } from './pages/restricted/restricted.component';
+import { SignupComponent } from './pages/signup/signup.component';
 
 
 const appRoutes: Routes = [
@@ -11,6 +13,14 @@ const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+  },
+  {
+    path: 'restricted',
+    component: RestrictedComponent,
   },
   {
     path: '**',

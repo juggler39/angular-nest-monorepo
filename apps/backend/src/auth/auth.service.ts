@@ -16,7 +16,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
-  ) {}
+  ) { }
   async signUp(createUserDto: CreateUserDto): Promise<any> {
     // Check if user exists
     const userExists = await this.usersService.findByUsername(
@@ -30,11 +30,12 @@ export class AuthService {
     const hash = await this.hashData(createUserDto.password);
     const newUser = await this.usersService.create({
       ...createUserDto,
+      name: createUserDto.username,
       password: hash,
     });
     const tokens = await this.getTokens(newUser._id, newUser.username);
     await this.updateRefreshToken(newUser._id, tokens.refreshToken);
-    return tokens;
+    return { ...tokens, userId: newUser._id };
   }
 
   async signIn(data: AuthDto) {
@@ -46,7 +47,7 @@ export class AuthService {
       throw new BadRequestException('Password is incorrect');
     const tokens = await this.getTokens(user._id, user.username);
     await this.updateRefreshToken(user._id, tokens.refreshToken);
-    return tokens;
+    return { ...tokens, userId: user._id };
   }
 
   async logout(userId: string) {
