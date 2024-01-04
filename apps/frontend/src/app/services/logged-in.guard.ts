@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, take, map } from 'rxjs';
 
 
 @Injectable({ providedIn: 'root' })
 
-export class LoggedInGuard implements CanActivate {
+export class LoggedInGuard {
 
-  constructor(private store: Store<{ auth: { isLoggedIn: boolean } }>) { }
+  constructor(private router: Router, private store: Store<{ auth: { isLoggedIn: boolean } }>) { }
 
   canActivate(): Observable<boolean> {
     return this.store.pipe(
       select('auth'),
       take(1),
-      map((authState) => !authState.isLoggedIn)
+      map((authState) => {
+        console.log("🚀 ~ file: logged-in.guard.ts:18 ~ LoggedInGuard ~ map ~ authState:", authState)
+        if (authState.isLoggedIn) {
+          this.router.navigate(['/restricted']);
+          return false;
+        } else {
+          return true;
+        }
+      })
     )
   }
 }

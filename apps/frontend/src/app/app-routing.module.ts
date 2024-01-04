@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { RestrictedComponent } from './pages/restricted/restricted.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { LoggedInGuard } from '@services/logged-in.guard';
 
 
 const appRoutes: Routes = [
@@ -13,6 +14,7 @@ const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [LoggedInGuard]
   },
   {
     path: 'signup',

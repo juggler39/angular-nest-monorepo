@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { AuthModel } from '../../models/auth.model';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
-import { UserModel } from '../../models/user.model';
+import { IUser } from '../../models/user.model';
 import { Store, select } from '@ngrx/store';
 import { login } from '../../store/actions/auth.actions';
 import { AppState, selectAuth } from '../../store';

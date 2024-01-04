@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { AuthModel } from '../../models/auth.model';
-import { Observable, switchMap } from 'rxjs';
-import { UserModel } from '../../models/user.model';
+import { AuthService } from '@services/auth.service';
+import { AuthModel } from '@models/auth.model';
+import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { login, logout } from '../../store/actions/auth.actions';
-import { AppState, selectAuth } from '../../store';
+import { login, logout } from '@store/actions/auth.actions';
+import { AppState, selectAuth } from '@store/index';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +35,7 @@ export class LoginComponent {
       next: (user) => {
         console.log(user);
         this.isLoading.set(false);
-        this.store.dispatch(login());
+        //this.store.dispatch(login());
       },
       error: (error) => {
         this.isLoading.set(false);
