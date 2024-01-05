@@ -20,7 +20,7 @@ export class CatsController {
   @UseGuards(AccessTokenGuard)
   @Get()
   findAll() {
-    return this.catsService.findAll();
+    return { data: this.catsService.findAll() };
   }
 
   @Get(':id')

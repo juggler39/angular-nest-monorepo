@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { map, Observable, take } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanLoad {
+export class AuthGuard {
 
   constructor(private router: Router, private store: Store<{ auth: { isLoggedIn: boolean } }>) { }
 

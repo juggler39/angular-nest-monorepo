@@ -1,42 +1,25 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpInterceptor, HttpRequest, HttpHandler, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Store, select } from "@ngrx/store";
-import { Observable, catchError, switchMap, throwError } from "rxjs";
-import { AppState, selectAuth } from "../store";
+import { catchError, switchMap, throwError } from "rxjs";
+import { AuthService } from "./auth.service";
 
 // token.interceptor.ts
 @Injectable()
 class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private authService: AuthService) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-    const isLoggedIn$ = this.store.pipe(select(selectAuth));
+    console.log('sadfsd');
 
-    isLoggedIn$.subscribe((isLoggedIn: boolean) => {
-      if (isLoggedIn) {
-        console.log('is logged in');
+    // Attach access token to request headers
+    const authorizedReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + this.authService.getAccessToken()) });
 
-        return next.handle(req);
-      } else {
-        console.log('not logged in');
-        return next.handle(req);
-        // const err = new Error('test')
-        // return throwError(() => err);
-      }
-    })
-
-
-    return next.handle(req);
-
-
-    // // Attach access token to request headers
-    // const authorizedReq = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + this.authService.getAccessToken()) });
-
-    // return next.handle(authorizedReq).pipe(
-    //   catchError((error: HttpErrorResponse) => {
-    //     if (error.status === 401) {
+    return next.handle(req)
+    // .pipe(
+    //   catchError((error) => {
+    //     if (error.status === 401 || error.status === 403) {
     //       // Access token is expired, try refreshing
     //       return this.authService.refreshToken().pipe(
     //         switchMap((newToken: string) => {

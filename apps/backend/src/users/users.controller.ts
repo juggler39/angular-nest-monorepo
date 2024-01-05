@@ -20,11 +20,6 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get('profile')
-  findProfile() {
-    return { "sfsf": 'asdfsa' };
-  }
-
   @Get(':id')
   findById(@Param('id') id: string) {
     return this.usersService.findById(id);

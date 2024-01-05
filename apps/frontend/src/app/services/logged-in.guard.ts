@@ -15,7 +15,6 @@ export class LoggedInGuard {
       select('auth'),
       take(1),
       map((authState) => {
-        console.log("🚀 ~ file: logged-in.guard.ts:18 ~ LoggedInGuard ~ map ~ authState:", authState)
         if (authState.isLoggedIn) {
           this.router.navigate(['/restricted']);
           return false;

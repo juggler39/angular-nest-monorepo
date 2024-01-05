@@ -19,6 +19,7 @@ const appRoutes: Routes = [
   {
     path: 'signup',
     component: SignupComponent,
+    canActivate: [LoggedInGuard]
   },
   {
     path: 'restricted',

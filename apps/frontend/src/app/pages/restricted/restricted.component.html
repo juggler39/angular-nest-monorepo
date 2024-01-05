@@ -1,1 +1,5 @@
 <p>restricted works!</p>
+
+<div *ngIf="(cats$ | async) as cats">
+  <p>{{cats.data}}</p>
+</div>
