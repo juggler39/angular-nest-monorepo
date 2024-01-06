@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { AuthService } from '@services/auth.service';
 import { HttpService } from '@services/http.service';
 
 @Component({
@@ -10,8 +11,10 @@ import { HttpService } from '@services/http.service';
   imports: [CommonModule]
 })
 export class RestrictedComponent {
-  constructor(private httpService: HttpService,) { }
+  constructor(private httpService: HttpService, private auth: AuthService,) { }
   cats$ = this.httpService.getCats()
-
+  public logout() {
+    this.auth.logout().subscribe()
+  }
 
 }

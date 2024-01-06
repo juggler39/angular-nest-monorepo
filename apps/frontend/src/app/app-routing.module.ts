@@ -4,13 +4,11 @@ import { LoginComponent } from './pages/login/login.component';
 import { RestrictedComponent } from './pages/restricted/restricted.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { LoggedInGuard } from '@services/logged-in.guard';
+import { AuthGuard } from '@services/auth.guard';
 
 
 const appRoutes: Routes = [
-  // {
-  //   path: '',
-  //   component: NxWelcomeComponent,
-  // },
+
   {
     path: 'login',
     component: LoginComponent,
@@ -24,6 +22,7 @@ const appRoutes: Routes = [
   {
     path: 'restricted',
     component: RestrictedComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '**',
@@ -34,7 +33,7 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes, {
-      onSameUrlNavigation: 'reload',
+      //onSameUrlNavigation: 'reload',
       anchorScrolling: 'enabled',
       scrollOffset: [0, 0],
       scrollPositionRestoration: 'enabled',

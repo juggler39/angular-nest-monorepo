@@ -3,3 +3,5 @@
 <div *ngIf="(cats$ | async) as cats">
   <p>{{cats.data}}</p>
 </div>
+
+<button (click)="logout()">logout</button>

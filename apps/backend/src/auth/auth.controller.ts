@@ -43,13 +43,26 @@ export class AuthController {
   logout(@Req() req: Request, @Res() res: Response) {
     res.cookie('accessToken', '', { expires: new Date() });
     this.authService.logout(req.user['sub']);
+    return res.send({ data: 'logout' });
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('check')
+  check(@Res() res: Response) {
+    return res.send({ data: 'logged in' });
   }
 
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
-  refreshTokens(@Req() req: Request) {
+  async refreshTokens(@Req() req: Request, @Res() res: Response) {
     const userId = req.user['sub'];
     const refreshToken = req.user['refreshToken'];
-    return this.authService.refreshTokens(userId, refreshToken);
+    const userData = await this.authService.refreshTokens(userId, refreshToken);
+    res.cookie('accessToken', userData.accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict'
+    });
+    return res.send(userData);
   }
 }

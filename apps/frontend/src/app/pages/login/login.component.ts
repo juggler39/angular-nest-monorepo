@@ -3,7 +3,6 @@ import { AuthService } from '@services/auth.service';
 import { AuthModel } from '@models/auth.model';
 import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { login, logout } from '@store/actions/auth.actions';
 import { AppState, selectAuth } from '@store/index';
 
 @Component({
@@ -23,19 +22,16 @@ export class LoginComponent {
   public isLoading = signal(false);
   public error: string | null = null;
 
-  constructor(private auth: AuthService, private store: Store<AppState>) { this.isLoggedIn$ = this.store.pipe(select(selectAuth)); }
+  constructor(private auth: AuthService, private store: Store<AppState>) {
+    this.isLoggedIn$ = this.store.pipe(select(selectAuth));
+  }
 
 
   public login() {
     this.isLoading = signal(true);
-    const authFlow = this.auth
-      .login(this.user)
-
-    authFlow.subscribe({
-      next: (user) => {
-        console.log(user);
+    this.auth.login(this.user).subscribe({
+      next: () => {
         this.isLoading.set(false);
-        //this.store.dispatch(login());
       },
       error: (error) => {
         this.isLoading.set(false);
@@ -46,9 +42,7 @@ export class LoginComponent {
   }
 
   public logout() {
-    this.store.dispatch(logout());
-    console.log('logout');
-
+    this.auth.logout().subscribe()
   }
 
 }
