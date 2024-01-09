@@ -3,12 +3,20 @@ import { Injectable } from "@angular/core";
 import { EMPTY, catchError, switchMap, throwError } from "rxjs";
 import { AuthService } from "./auth.service";
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { logout } from "@store/actions/auth.actions";
+import { AppState } from "@store/index";
+import { LocalStorageService } from "./localstorage.service";
 
 
 @Injectable()
 class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private store: Store<AppState>,
+    private localStorage: LocalStorageService) { }
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler) {
     return next.handle(req)
@@ -21,6 +29,9 @@ class AuthInterceptor implements HttpInterceptor {
             }),
             catchError((error) => { return throwError(() => new Error(error)); })
           );
+        } else {
+          this.store.dispatch(logout());
+          this.localStorage.removeItem('user');
         }
         this.router.navigate(['/'])
         return EMPTY
