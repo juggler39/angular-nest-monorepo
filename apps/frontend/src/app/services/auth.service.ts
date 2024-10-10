@@ -46,7 +46,7 @@ export class AuthService {
         this.store.dispatch(login());
         return response;
       })
-    );;
+    );
   }
 
   login(user: AuthModel): Observable<AuthResponseData> {
