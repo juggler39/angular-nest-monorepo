@@ -1,5 +1,13 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "accessToken": "${NX_CLOUD_AUTH_TOKEN}"
+      }
+    }
+  },
   "targetDefaults": {
     "build": {
       "cache": true,
@@ -53,7 +61,7 @@
       "style": "scss"
     }
   },
-  "nxCloudAccessToken": "ZGRhOTZkZDItOTNlNy00MmE0LWI4MjUtMGUwZmVjMTUzZTZjfHJlYWQtd3JpdGU=",
+  "nxCloudAccessToken": "${NX_CLOUD_AUTH_TOKEN}",
   "useInferencePlugins": false,
   "defaultBase": "master"
 }
