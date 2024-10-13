@@ -5,7 +5,7 @@ import { Request } from 'express';
 
 type JwtPayload = {
   userId: string;
-  username: string;
+  email: string;
 };
 
 @Injectable()

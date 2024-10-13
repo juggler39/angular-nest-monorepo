@@ -22,8 +22,8 @@ export class UsersService {
     return this.IUser.findById(id);
   }
 
-  async findByUsername(username: string): Promise<UserDocument> {
-    return this.IUser.findOne({ username }).exec();
+  async findByEmail(email: string): Promise<UserDocument> {
+    return this.IUser.findOne({ email }).exec();
   }
 
   async update(

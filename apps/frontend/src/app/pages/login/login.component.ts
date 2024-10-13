@@ -14,7 +14,7 @@ import { AppState, selectAuth } from '@store/index';
 export class LoginComponent {
 
   user: AuthModel = {
-    username: '',
+    email: '',
     password: '',
   };
 
