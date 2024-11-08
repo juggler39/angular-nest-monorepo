@@ -49,7 +49,6 @@ export class AuthController {
   @Post('logout')
   async logout(@Req() req: Request, @Res() res: Response) {
     const user = req.user as any;
-    console.log("🚀 ~ AuthController ~ logout ~ user:", user)
     res.cookie('accessToken', '', { expires: new Date() });
     await this.authService.logout(user.sub, user.deviceId);
     return res.send({ data: 'logout' });

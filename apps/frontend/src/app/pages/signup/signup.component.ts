@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { AuthModel } from '../../models/auth.model';
-import { Observable, catchError, switchMap, throwError } from 'rxjs';
-import { IUser } from '../../models/user.model';
+import { Observable, catchError, throwError } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { login } from '../../store/actions/auth.actions';
 import { AppState, selectAuth } from '../../store';
