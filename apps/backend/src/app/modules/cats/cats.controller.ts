@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
-import { AccessTokenGuard } from '../common/guards/accessToken.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AccessTokenGuard } from '../../guards/accessToken.guard';
 
 
 @ApiTags('Cats')

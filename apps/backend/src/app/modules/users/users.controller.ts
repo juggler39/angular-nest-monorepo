@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, } from '@
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AccessTokenGuard } from '../common/guards/accessToken.guard';
 import { ApiTags } from '@nestjs/swagger';
+import { AccessTokenGuard } from '../../guards/accessToken.guard';
 
 @ApiTags('Users')
 @Controller('users')
