@@ -3,6 +3,14 @@ import { Document, SchemaTypes, Types } from 'mongoose';
 
 export type UserDocument = User & Document;
 
+class Device {
+  @Prop({ required: true })
+  deviceId: string;
+
+  @Prop()
+  refreshToken: string;
+}
+
 @Schema()
 export class User {
   @Prop({ type: SchemaTypes.ObjectId, auto: true })
@@ -17,8 +25,8 @@ export class User {
   @Prop({ required: true })
   password: string;
 
-  @Prop()
-  refreshToken: string;
+  @Prop({ type: [Device], default: [] })
+  devices: Device[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

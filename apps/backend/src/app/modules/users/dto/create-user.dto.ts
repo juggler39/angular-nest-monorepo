@@ -5,5 +5,4 @@ export class CreateUserDto {
   email: string;
   @IsStrongPassword()
   password: string;
-  refreshToken?: string;
 }

@@ -8,16 +8,35 @@ import { login, logout } from '@store/actions/auth.actions';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './localstorage.service';
 
-
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient,
+  private deviceId: string;
+
+  constructor(
+    private http: HttpClient,
     private store: Store<AppState>,
     private router: Router,
-    private localStorage: LocalStorageService) { }
+    private localStorage: LocalStorageService
+  ) {
+    this.deviceId = this.getOrCreateDeviceId();
+  }
+
+  private getOrCreateDeviceId(): string {
+    let deviceId = this.localStorage.getItem('deviceId');
+    if (!deviceId) {
+      deviceId = this.generateDeviceId();
+      this.localStorage.setItem('deviceId', deviceId);
+    }
+    return deviceId;
+  }
+
+  private generateDeviceId(): string {
+    return 'xxxx-xxxx-xxxx-xxxx'.replace(/[x]/g, () =>
+      ((Math.random() * 16) | 0).toString(16)
+    );
+  }
 
   refreshToken(): Observable<string> {
     const user = JSON.parse(this.localStorage.getItem('user'));
@@ -25,7 +44,8 @@ export class AuthService {
 
     if (refreshToken) {
       const headers = new HttpHeaders().append('Authorization', 'Bearer ' + refreshToken)
-      return this.http.get<{ refreshToken: string }>('http://localhost:3000/api/auth/refresh', { headers: headers, withCredentials: true }).pipe(
+      return this.http.post<{ refreshToken: string }>('http://localhost:3000/api/auth/refresh', { refreshToken,
+        deviceId: this.deviceId}, {headers, withCredentials: true }).pipe(
         tap((response) => {
           user.refreshToken = response.refreshToken;
           this.localStorage.setItem('user', JSON.stringify(response));
@@ -35,12 +55,16 @@ export class AuthService {
         catchError(() => { return throwError(() => new Error('error')); }),
       );
     } else {
-      return EMPTY
+      return EMPTY;
     }
   }
 
   signup(user: AuthModel) {
-    return this.http.post<AuthResponseData>('http://localhost:3000/api/auth/signup', user, { withCredentials: true }).pipe(
+    return this.http.post<AuthResponseData>(
+      'http://localhost:3000/api/auth/signup',
+      { ...user, deviceId: this.deviceId },
+      { withCredentials: true }
+    ).pipe(
       map((response) => {
         this.localStorage.setItem('user', JSON.stringify(response));
         this.store.dispatch(login());
@@ -50,7 +74,11 @@ export class AuthService {
   }
 
   login(user: AuthModel): Observable<AuthResponseData> {
-    return this.http.post<AuthResponseData>('http://localhost:3000/api/auth/login', user, { withCredentials: true }).pipe(
+    return this.http.post<AuthResponseData>(
+      'http://localhost:3000/api/auth/login',
+      { ...user, deviceId: this.deviceId },
+      { withCredentials: true }
+    ).pipe(
       map((response) => {
         this.localStorage.setItem('user', JSON.stringify(response));
         this.store.dispatch(login());
@@ -60,22 +88,30 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    return this.http.get<AuthResponseData>('http://localhost:3000/api/auth/logout', { withCredentials: true }).pipe(
+    return this.http.post<{ data: string }>(
+      'http://localhost:3000/api/auth/logout',
+      {
+        deviceId: this.deviceId,
+      },
+      { withCredentials: true }
+    ).pipe(
       map(() => {
         this.localStorage.removeItem('user');
         this.store.dispatch(logout());
-        this.router.navigate(['/login'])
+        this.router.navigate(['/login']);
       })
     );
   }
 
   check(): Observable<{ data: string }> {
-    return this.http.get<{ data: string }>('http://localhost:3000/api/auth/check', { withCredentials: true }).pipe(
+    return this.http.get<{ data: string }>(
+      'http://localhost:3000/api/auth/check',
+      { withCredentials: true }
+    ).pipe(
       catchError(() => { return throwError(() => new Error('error')); }),
       tap(() => {
         this.store.dispatch(login());
       }),
     );
   }
-
 }
