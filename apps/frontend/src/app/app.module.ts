@@ -8,7 +8,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/reducers/auth.reducer';
-import { httpInterceptorProviders } from './services/token.interceptor';
+import { httpInterceptorProviders } from './services/auth.interceptor';
 import { SignupComponent } from './pages/signup/signup.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 
