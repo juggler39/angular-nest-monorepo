@@ -33,5 +33,8 @@
     </form>
     <button mat-raised-button color="warn" (click)="logout()" *ngIf="(isLoggedIn$|async)">Logout</button>
     <div>{{(isLoggedIn$|async)|json}}</div>
+    <p>Авторизация с помощью access, refresh-токенов и device ID для возможности отслеживания токенов на разных устройствах.</p>
+    <p>Refresh-токен хранится в http-only куке, а access-токен - в хранилище приложения.</p>
+
   </mat-card-content>
 </mat-card>

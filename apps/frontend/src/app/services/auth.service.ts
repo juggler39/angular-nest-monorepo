@@ -7,7 +7,8 @@ import { AppState } from '@store/index';
 import { login, logout } from '@store/actions/auth.actions';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './localstorage.service';
-
+import { environment } from '../../environments/environments';
+const API_PATH = environment.apiPath
 @Injectable({
   providedIn: 'root',
 })
@@ -44,7 +45,7 @@ export class AuthService {
 
     if (refreshToken) {
       const headers = new HttpHeaders().append('Authorization', 'Bearer ' + refreshToken)
-      return this.http.post<{ refreshToken: string }>('http://localhost:3000/api/auth/refresh', { refreshToken,
+      return this.http.post<{ refreshToken: string }>(`${API_PATH}/auth/refresh`, { refreshToken,
         deviceId: this.deviceId}, {headers, withCredentials: true }).pipe(
         tap((response) => {
           user.refreshToken = response.refreshToken;
@@ -61,7 +62,7 @@ export class AuthService {
 
   signup(user: AuthModel) {
     return this.http.post<AuthResponseData>(
-      'http://localhost:3000/api/auth/signup',
+      `${API_PATH}/auth/signup`,
       { ...user, deviceId: this.deviceId },
       { withCredentials: true }
     ).pipe(
@@ -75,7 +76,7 @@ export class AuthService {
 
   login(user: AuthModel): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
-      'http://localhost:3000/api/auth/login',
+      `${API_PATH}/auth/login`,
       { ...user, deviceId: this.deviceId },
       { withCredentials: true }
     ).pipe(
@@ -89,7 +90,7 @@ export class AuthService {
 
   logout(): Observable<void> {
     return this.http.post<{ data: string }>(
-      'http://localhost:3000/api/auth/logout',
+      `${API_PATH}/auth/logout`,
       {
         deviceId: this.deviceId,
       },
@@ -105,7 +106,7 @@ export class AuthService {
 
   check(): Observable<{ data: string }> {
     return this.http.get<{ data: string }>(
-      'http://localhost:3000/api/auth/check',
+      `${API_PATH}/auth/check`,
       { withCredentials: true }
     ).pipe(
       catchError(() => { return throwError(() => new Error('error')); }),
