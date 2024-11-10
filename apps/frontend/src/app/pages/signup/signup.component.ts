@@ -3,7 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { AuthModel } from '../../models/auth.model';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { login } from '../../store/actions/auth.actions';
+import { login } from '../../store/auth/auth.actions';
 import { AppState, selectAuth } from '../../store';
 
 @Component({

@@ -4,7 +4,7 @@ import { EMPTY, catchError, switchMap, throwError } from "rxjs";
 import { AuthService } from "./auth.service";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { logout } from "@store/actions/auth.actions";
+import { logout } from "@store/auth/auth.actions";
 import { AppState } from "@store/index";
 import { LocalStorageService } from "./localstorage.service";
 

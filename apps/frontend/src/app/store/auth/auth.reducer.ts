@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { login, logout } from '../actions/auth.actions';
+import { login, logout } from '../auth/auth.actions';
 
 export interface IAuthState {
   isLoggedIn: boolean;

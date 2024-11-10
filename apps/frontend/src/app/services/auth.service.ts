@@ -4,7 +4,7 @@ import { AuthModel, AuthResponseData } from '../models/auth.model';
 import { EMPTY, Observable, catchError, map, tap, throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '@store/index';
-import { login, logout } from '@store/actions/auth.actions';
+import { login, logout } from '@store/auth/auth.actions';
 import { Router } from '@angular/router';
 import { LocalStorageService } from './localstorage.service';
 import { environment } from '../../environments/environments';

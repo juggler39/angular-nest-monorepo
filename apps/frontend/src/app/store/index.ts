@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { IAuthState } from './reducers/auth.reducer';
+import { IAuthState } from './auth/auth.reducer';
 
 export interface AppState {
   auth: IAuthState;
